@@ -1,15 +1,32 @@
 from django.urls import path
+from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView, SpectacularSwaggerView
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from . import views
+
+from .views import *
+
 
 urlpatterns = [
-    path('api/login/', TokenObtainPairView.as_view(), name='login'),
-    path('api/refresh/', TokenRefreshView.as_view(), name='refresh'),
-    path('api/patients/', views.PatientListView.as_view(), name='patients'),
-    path('api/patients/<int:pk>/', views.PatientDetailView.as_view(), name='patient-details'),
-    path('api/orders/', views.OrderListView.as_view(), name='orders'),
-    path('api/orders/<int:pk>/', views.OrderDetailView.as_view(), name='order-details'),
-    path('api/results/', views.ResultListView.as_view(), name='results'),
-    path('api/results/<int:pk>/', views.ResultDetailView.as_view(), name='result-details'),
-    path('api/patient_profile/<int:id>/', views.get_patient_page, name='patient-profile'),
+    path('', SpectacularSwaggerView.as_view(), name='doc'),
+    path('redoc/', SpectacularRedocView.as_view(), name='redoc'),
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+
+    path('login/', TokenObtainPairView.as_view(), name='login'),
+    path('refresh/', TokenRefreshView.as_view(), name='refresh'),
+
+    path('patients/', PatientListView.as_view(), name='patients'),
+    path('patients/<int:pk>/', PatientDetailView.as_view(), name='patient-details'),
+    path('patients/<int:pk>/update/', PatientUpdateView.as_view(), name='patient-update'),
+    path('patients/<int:pk>/delete/', PatientDeleteView.as_view(), name='patient-delete'),
+
+    path('orders/', OrderListView.as_view(), name='orders'),
+    path('orders/<int:pk>/', OrderDetailView.as_view(), name='order-details'),
+    path('orders/<int:pk>/update/', OrderUpdateView.as_view(), name='order-update'),
+    path('orders/<int:pk>/delete/', OrderDeleteView.as_view(), name='order-delete'),
+
+    path('results/', ResultListView.as_view(), name='results'),
+    path('results/<int:pk>/', ResultDetailView.as_view(), name='result-details'),
+    path('results/<int:pk>/update/', ResultUpdateView.as_view(), name='result-update'),
+    path('results/<int:pk>/delete/', ResultDeleteView.as_view(), name='result-delete'),
+
+    path('patient_profile/<int:pk>/', PatientProfileDetailView.as_view(), name='patient-profile'),
 ]

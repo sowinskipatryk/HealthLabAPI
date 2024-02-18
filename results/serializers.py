@@ -8,9 +8,7 @@ class ShortResultSerializer(serializers.ModelSerializer):
         fields = ['name', 'value', 'reference']
 
 
-class LongResultSerializer(serializers.ModelSerializer):
-    id = serializers.IntegerField(source='pk')
-
+class ResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
         fields = ['id', 'name', 'value', 'reference']

@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'orders',
     'results',
     'data_management',
+
+    'drf_spectacular'
 ]
 
 MIDDLEWARE = [
@@ -139,6 +141,7 @@ REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
 }
 
 SIMPLE_JWT = {
@@ -147,4 +150,11 @@ SIMPLE_JWT = {
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Health Lab API',
+    'DESCRIPTION': 'The Health Lab API is a software interface that allows developers to integrate health-related data into their applications, enabling access to resources such as patients data and medical records through standardized programming commands.',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
 }
