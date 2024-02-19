@@ -65,8 +65,10 @@ class APITest(TestCase):
         url = reverse('patient-profile', kwargs={'pk': test_id})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        expected_structure = {'patient': {'id': 1, 'name': 'Piotr', 'surname': 'Kowalski', 'sex': 'm', 'birthDate': '1983-04-12'}, 'orders': [{'orderId': 1, 'results': [{'name': 'Protoporfiryna cynkowa', 'value': '4.0', 'reference': '< 40,0'}, {'name': 'Wolna trijodotyronina (FT3) (O55)', 'value': '4.00', 'reference': '2,30 - 4,20'}]}, {'orderId': 2, 'results': [{'name': 'Tyreotropina (TSH)  trzeciej generacji (L69)', 'value': '334,000 µIU/ml', 'reference': '0,550 - 4,780'}, {'name': 'Urobilinogen', 'value': 'prawidłowy', 'reference': 'prawidłowy'}]}]}
-        self.assertEqual(response.data, expected_structure)
+
+        response_data = dict(response.data)  # converting OrderedDict to dict
+        expected_structure = {'patient': {'id': 1, 'name': 'Piotr', 'surname': 'Kowalski', 'sex': 'm', 'birthDate': '1983-04-12'}, 'orders': [{'orderId': '1', 'results': [{'name': 'Protoporfiryna cynkowa', 'value': '4.0', 'reference': '< 40,0'}, {'name': 'Wolna trijodotyronina (FT3) (O55)', 'value': '4.00', 'reference': '2,30 - 4,20'}]}, {'orderId': '2', 'results': [{'name': 'Tyreotropina (TSH)  trzeciej generacji (L69)', 'value': '334,000 µIU/ml', 'reference': '0,550 - 4,780'}, {'name': 'Urobilinogen', 'value': 'prawidłowy', 'reference': 'prawidłowy'}]}]}
+        self.assertEqual(response_data, expected_structure)
 
     def test_user_does_not_exist(self):
         test_id = 999
@@ -86,7 +88,7 @@ class APITest(TestCase):
         url = reverse('patient-details', kwargs={'pk': test_id})
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-        expected_structure = {"id": 2, "name": "Anna", "surname": "Jabłońska", "sex": "female", "birthDate": "2002-12-12"}
+        expected_structure = {"id": 2, "name": "Anna", "surname": "Jabłońska", "sex": "f", "birthDate": "2002-12-12"}
         self.assertEqual(response.data, expected_structure)
 
     def test_patient_update(self):

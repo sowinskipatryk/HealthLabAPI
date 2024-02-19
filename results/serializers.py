@@ -8,7 +8,7 @@ class ShortResultSerializer(serializers.ModelSerializer):
         fields = ['name', 'value', 'reference']
 
 
-class ResultSerializer(serializers.ModelSerializer):
+class LongResultSerializer(serializers.ModelSerializer):
     class Meta:
         model = Result
         fields = ['id', 'name', 'value', 'reference']
